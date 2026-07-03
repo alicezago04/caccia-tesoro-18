@@ -1055,6 +1055,12 @@
 
   /* ------------------------------- AVVIO ---------------------------- */
   function bindControls() {
+    // Mobile: impedisce il menu "copia/salva immagine" tenendo premuto sul
+    // gioco o sulle frecce (il tocco prolungato su un'immagine lo farebbe aprire).
+    document.addEventListener("contextmenu", (e) => {
+      if (e.target.closest("#game, #touch-controls, .overlay-modal, .overlay-screen")) e.preventDefault();
+    });
+
     $("#btn-help").addEventListener("click", () => {
       const tips = {
         1: "Usa le frecce per camminare. Raggiungi la freccia sul quadro: il puzzle parte da solo!",
@@ -1107,12 +1113,18 @@
   }
 
   let started = false;
-  // Richiede lo schermo intero (Android/desktop). Su iOS l'API non esiste:
-  // lì il fullscreen si ottiene aggiungendo il gioco alla schermata Home.
+  // Richiede lo schermo intero (Android/desktop) e blocca l'orientamento
+  // in orizzontale. Su iOS l'API non esiste: lì il fullscreen SENZA barre si
+  // ottiene aggiungendo il gioco alla schermata Home e aprendolo dall'icona.
   function goFullscreen() {
     const el = document.documentElement;
     const req = el.requestFullscreen || el.webkitRequestFullscreen;
-    if (req) { try { req.call(el).catch(() => {}); } catch (_) {} }
+    if (!req) return;
+    try {
+      const p = req.call(el);
+      const lock = () => { try { screen.orientation?.lock?.("landscape").catch(() => {}); } catch (_) {} };
+      if (p && p.then) p.then(lock).catch(() => {}); else lock();
+    } catch (_) {}
   }
 
   function startGame() {
