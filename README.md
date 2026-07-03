@@ -10,15 +10,17 @@ Funziona in qualsiasi browser, **senza installare niente** e senza connessione.
 
 ## 🎮 Come si gioca
 
-L'eroina **cammina** in un mondo a scorrimento. Avvicinati agli oggetti per far
-comparire il fumetto **"Interagisci [E]"** e affronta la sfida; poi attraversa il
-**passaggio luminoso** ✨ per andare alla zona successiva.
+L'eroina **cammina** in un mondo a scorrimento. Avvicinati a un oggetto per far
+comparire il suo **fumetto** (es. *"Parla con il guardiano"*): da PC premi **E**,
+da telefono **tocca l'oggetto** per affrontare la sfida. Superata la sfida,
+raggiungi il **passaggio luminoso** ✨ (premi **E** oppure toccalo) per andare
+alla zona successiva.
 
-| Azione | Tastiera | A schermo (telefono/tablet) |
+| Azione | Tastiera (PC) | A schermo (telefono/tablet) |
 |--------|----------|------------------------------|
 | Muoversi | ← → oppure A / D | pulsanti ◀ ▶ |
 | Saltare | ↑ / W / Spazio | pulsante ⤴ |
-| Interagire | E / Invio | pulsante **E** |
+| Interagire / avanzare | E / Invio | **tocca** l'oggetto o il passaggio ✨ |
 
 ---
 
@@ -66,9 +68,8 @@ Ogni domanda ha le risposte in `options` e `answer` = **il numero della risposta
 giusta** (si conta da 0: la prima è `0`, la seconda `1`, ecc.).
 
 ### Per le foto
-Metti i file nella cartella `assets/images/` (vedi il `LEGGIMI.txt` lì dentro)
-e scrivi il percorso in `config.js`. Senza foto, il gioco usa una grafica
-disegnata già carina.
+Metti i file nella cartella `assets/images/` e scrivi il percorso in `config.js`.
+Senza foto, il gioco usa una grafica disegnata già carina.
 
 ### 🟪 Usare grafica pixel-art tua (avatar + sfondi)
 Puoi sostituire la grafica disegnata con immagini tue in stile pixel-art:
@@ -113,8 +114,7 @@ caccia-tesoro-18/
 ├── script.js       · motore del gioco (non serve modificarlo)
 ├── config.js       · ⭐ QUI personalizzi tutto
 └── assets/
-    ├── images/     · le tue foto (opzionali)
-    └── sounds/     · musica di sottofondo (opzionale)
+    └── images/     · immagini del gioco (sprite, sfondi) e le tue foto
 ```
 
 Buon divertimento e buon compleanno! 💖
