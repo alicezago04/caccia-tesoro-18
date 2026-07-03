@@ -1,0 +1,17 @@
+{
+  "name": "Caccia al Tesoro · 18 Anni",
+  "short_name": "Caccia Tesoro",
+  "description": "Un videogioco-avventura per il 18° compleanno.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#1a1330",
+  "theme_color": "#1a1330",
+  "icons": [
+    { "src": "assets/images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

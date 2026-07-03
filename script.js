@@ -1107,9 +1107,18 @@
   }
 
   let started = false;
+  // Richiede lo schermo intero (Android/desktop). Su iOS l'API non esiste:
+  // lì il fullscreen si ottiene aggiungendo il gioco alla schermata Home.
+  function goFullscreen() {
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req) { try { req.call(el).catch(() => {}); } catch (_) {} }
+  }
+
   function startGame() {
     if (started) return;
     started = true;
+    goFullscreen();
     Sound.unlock();
     Sound.music(CONFIG.music);
     $("#start-screen").classList.add("hidden");
