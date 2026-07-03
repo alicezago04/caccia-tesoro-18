@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Caccia al Tesoro · 18 Anni</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- =================== SCHERMATA INIZIALE =================== -->
+  <section id="start-screen" class="overlay-screen">
+    <div class="start-card">
+      <div class="start-sparkle"></div>
+      <h1 class="start-title">Caccia al Tesoro</h1>
+      <div class="start-badge">18</div>
+      <p class="start-sub" id="start-sub">Un'avventura per <span id="start-name">…</span></p>
+      <p class="start-text">
+        Cinque prove ti separano dal tuo tesoro. Risolvi gli enigmi,
+        raccogli gli oggetti magici e raggiungi il Castello dei 18 Anni!
+      </p>
+      <button class="btn btn-big" id="btn-start">Inizia l'avventura ▸</button>
+      <p class="start-tip">Tocca lo schermo per attivare i suoni</p>
+    </div>
+  </section>
+
+  <!-- =================== GIOCO =================== -->
+  <main id="game" class="hidden">
+
+    <!-- HUD superiore: avatar + nome + audio -->
+    <header id="hud-top">
+      <div class="hud-hero">
+        <div id="hud-avatar" class="hud-avatar"></div>
+        <div class="hud-hero-text">
+          <strong id="hud-name">Eroina</strong>
+          <span id="hud-zone-name">Radura dei Ricordi</span>
+        </div>
+      </div>
+      <div class="hud-controls">
+        <button id="btn-help" class="icon-btn" title="Aiuto">?</button>
+      </div>
+    </header>
+
+    <!-- Area di gioco principale -->
+    <div id="stage">
+      <div id="scene"></div>
+
+      <!-- Mini-mappa -->
+      <div id="minimap" class="hidden" title="Tocca per vedere il percorso">
+        <img class="minimap-icon" src="assets/images/obj/map_icon.png" alt="Mappa del percorso" />
+      </div>
+    </div>
+
+    <!-- Controlli a schermo: D-pad a 4 frecce -->
+    <div id="touch-controls" class="hidden">
+      <div class="dpad">
+        <button class="tc-btn tc-up" data-dir="up" aria-label="Salta"><img src="assets/images/arrows/up.png" alt="su" /></button>
+        <button class="tc-btn tc-left" data-dir="left" aria-label="Sinistra"><img src="assets/images/arrows/left.png" alt="sinistra" /></button>
+        <button class="tc-btn tc-right" data-dir="right" aria-label="Destra"><img src="assets/images/arrows/right.png" alt="destra" /></button>
+      </div>
+    </div>
+
+    <!-- Inventario -->
+    <footer id="inventory">
+      <img class="inv-bag" src="assets/images/obj/bag.png" alt="Sacca degli oggetti" />
+      <div id="inv-slots"></div>
+    </footer>
+  </main>
+
+  <!-- Contenitore per toast/messaggi temporanei -->
+  <div id="toast" class="hidden"></div>
+
+  <!-- Strato confetti per il finale -->
+  <canvas id="confetti" class="hidden"></canvas>
+
+  <!-- Avviso: gioca in orizzontale (telefono in portrait) -->
+  <div id="rotate-hint">
+    <div class="rot-ico"></div>
+    Ruota il telefono in orizzontale per giocare
+  </div>
+
+  <!-- Carica prima la configurazione, poi il motore di gioco -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

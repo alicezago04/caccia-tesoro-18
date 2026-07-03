@@ -1,0 +1,856 @@
+/* =====================================================================
+   CACCIA AL TESORO · 18 ANNI — Foglio di stile
+   Organizzato in: base · particelle · schermata iniziale · HUD ·
+   stage e temi per zona · UI dei mini-giochi · finale · responsive
+   ===================================================================== */
+
+/* ----------------------------- BASE ----------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --ink: #2a2140;
+  --paper: #fff8f0;
+  --gold: #ffd34e;
+  --gold-deep: #e6a817;
+  --pink: #e0457b;
+  --shadow: 0 14px 40px rgba(40, 20, 60, .28);
+  --radius: 22px;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: "Quicksand", system-ui, sans-serif;
+  color: var(--ink);
+  background: #11102a;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body { position: relative; }
+
+h1, h2, h3, .display { font-family: "Baloo 2", system-ui, sans-serif; }
+
+.hidden { display: none !important; }
+
+button { font-family: inherit; cursor: pointer; }
+
+/* Bottoni generici */
+.btn {
+  border: none;
+  background: linear-gradient(180deg, var(--gold), var(--gold-deep));
+  color: #4a2c00;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 14px 26px;
+  border-radius: 999px;
+  box-shadow: 0 8px 0 #b9820f, var(--shadow);
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease), filter .2s;
+  font-family: "Baloo 2", sans-serif;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(5px); box-shadow: 0 3px 0 #b9820f, var(--shadow); }
+.btn-big { font-size: 1.3rem; padding: 18px 40px; }
+.btn-ghost {
+  background: rgba(255,255,255,.16);
+  color: #fff;
+  box-shadow: none;
+  border: 2px solid rgba(255,255,255,.4);
+}
+.btn-ghost:active { transform: translateY(2px); box-shadow: none; }
+
+.icon-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,.85);
+  font-size: 1.3rem;
+  box-shadow: var(--shadow);
+  transition: transform .15s var(--ease);
+}
+.icon-btn:active { transform: scale(.9); }
+
+/* ----------------------------- CONFETTI --------------------------- */
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+
+/* ----------------------- SCHERMATA INIZIALE ---------------------- */
+.overlay-screen {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  padding: 20px;
+  z-index: 40;
+  background:
+    radial-gradient(1200px 700px at 50% -10%, #6a3fb0, transparent 60%),
+    linear-gradient(160deg, #3a1d6e 0%, #7b2d8e 50%, #c2427a 100%);
+  animation: fadeIn .6s var(--ease);
+}
+
+.start-card {
+  position: relative;
+  width: min(560px, 92vw);
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,247,240,.92));
+  border-radius: 30px;
+  padding: 46px 34px 38px;
+  box-shadow: var(--shadow), inset 0 0 0 3px rgba(255,255,255,.6);
+  animation: pop .7s var(--ease);
+}
+.start-sparkle { font-size: 2rem; animation: floaty 3s ease-in-out infinite; }
+.start-title {
+  margin: .1em 0 .2em;
+  font-size: clamp(2.2rem, 7vw, 3.4rem);
+  line-height: 1;
+  background: linear-gradient(90deg, var(--pink), #ff8a5c, var(--gold-deep));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.start-badge {
+  width: 92px; height: 92px; margin: 6px auto 14px;
+  display: grid; place-items: center;
+  font-family: "Baloo 2"; font-weight: 800; font-size: 2.6rem; color: #4a2c00;
+  background: radial-gradient(circle at 35% 30%, #fff0b8, var(--gold) 55%, var(--gold-deep));
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(230,168,23,.5), inset 0 -6px 12px rgba(180,120,0,.4);
+  animation: spinPop 1s var(--ease);
+}
+.start-sub { font-weight: 700; font-size: 1.2rem; color: var(--pink); margin: 0 0 10px; }
+.start-text { color: #5b4a66; line-height: 1.6; margin: 0 auto 26px; max-width: 42ch; }
+.start-tip { margin-top: 16px; font-size: .85rem; color: #9385a3; }
+
+/* ------------------------------- HUD ----------------------------- */
+#game {
+  position: relative;
+  height: 100%;
+  display: flex; flex-direction: column;
+  z-index: 5;
+}
+
+#hud-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, rgba(20,12,40,.55), transparent);
+  position: absolute; top: 0; left: 0; right: 0;
+  z-index: 20;
+}
+.hud-hero { display: flex; align-items: center; gap: 12px; }
+.hud-avatar {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid; place-items: center;
+}
+.hud-avatar svg { width: 100%; height: 100%; }
+.hud-hero-text { display: flex; flex-direction: column; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+.hud-hero-text strong { font-family: "Baloo 2"; font-size: 1.1rem; }
+.hud-hero-text span { font-size: .82rem; opacity: .85; }
+.hud-controls { display: flex; gap: 10px; }
+
+/* ------------------------ STAGE E SCENE -------------------------- */
+#stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+#scene {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: 84px 18px 18px;
+  transition: opacity .45s var(--ease), transform .45s var(--ease);
+}
+#scene.leaving { opacity: 0; transform: scale(.97) translateY(10px); }
+
+/* Sfondi a tema per ogni zona, applicati su #stage via classe .zone-N */
+#stage.zone-1 { background: linear-gradient(180deg, #aee6ff 0%, #d8f7d2 60%, #a6e29a 100%); }
+#stage.zone-2 { background: linear-gradient(180deg, #ffd9a0 0%, #ff9e7d 55%, #6a4a8a 100%); }
+#stage.zone-3 { background: radial-gradient(120% 90% at 50% 30%, #2a2350 0%, #120d2c 70%, #05030f 100%); }
+#stage.zone-4 { background: linear-gradient(180deg, #4a2c7a 0%, #8a3d9e 50%, #c25a8a 100%); }
+#stage.zone-5 {
+  background: radial-gradient(100% 80% at 50% 40%, #ff7eb3 0%, #a85bd6 55%, #4a2c7a 100%);
+}
+
+/* Decori di scena riutilizzabili (alberi, colline, stelle…) generati via JS */
+
+/* Carta-pannello che ospita i mini-giochi */
+.panel {
+  position: relative;
+  width: min(640px, 94vw);
+  max-height: calc(100% - 12px);
+  overflow: auto;
+  background: linear-gradient(180deg, rgba(255,255,255,.97), rgba(255,247,240,.95));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow), inset 0 0 0 3px rgba(255,255,255,.6);
+  padding: 22px 22px 26px;
+  text-align: center;
+  z-index: 10;
+  animation: pop .5s var(--ease);
+}
+.panel h2 { margin: 0 0 4px; font-size: 1.6rem; color: var(--pink); }
+.panel .lead { margin: 0 0 16px; color: #6a5a76; line-height: 1.5; }
+
+/* L'avatar grande che cammina nella scena */
+
+/* ---------------------- ZONA 1 · PUZZLE -------------------------- */
+.puzzle-wrap { display: grid; gap: 16px; }
+.puzzle-board {
+  display: grid;
+  gap: 4px;
+  margin: 0 auto;
+  padding: 8px;
+  background: #e9dcc8;
+  border-radius: 14px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,.15);
+}
+.puzzle-slot {
+  background: rgba(0,0,0,.06);
+  border-radius: 8px;
+  outline: 2px dashed rgba(0,0,0,.12);
+  outline-offset: -4px;
+  transition: outline-color .2s, background .2s;
+}
+.puzzle-slot.over { outline-color: var(--pink); background: rgba(224,69,123,.12); }
+.puzzle-tray {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  padding: 12px; min-height: 60px;
+  background: rgba(0,0,0,.04); border-radius: 14px;
+}
+.puzzle-piece {
+  background-size: cover;
+  border-radius: 8px;
+  cursor: grab;
+  box-shadow: 0 4px 10px rgba(0,0,0,.25);
+  touch-action: none;
+  transition: transform .12s var(--ease);
+}
+.puzzle-piece:active { cursor: grabbing; transform: scale(1.06); }
+.puzzle-piece.dragging { opacity: .5; }
+.puzzle-piece.placed { cursor: default; box-shadow: none; }
+
+/* ---------------------- ZONA 2 · QUIZ ---------------------------- */
+.quiz-guardian { font-size: 3.4rem; animation: floaty 3.4s ease-in-out infinite; }
+.quiz-progress { display: flex; gap: 8px; justify-content: center; margin: 6px 0 14px; }
+.quiz-dot { width: 14px; height: 14px; border-radius: 50%; background: #e3d6e6; transition: .3s; }
+.quiz-dot.ok { background: #4cc77c; transform: scale(1.15); }
+.quiz-dot.bad { background: #e0457b; }
+.quiz-q { font-family: "Baloo 2"; font-size: 1.3rem; margin: 8px 0 18px; color: var(--ink); }
+.quiz-options { display: grid; gap: 12px; }
+.quiz-opt {
+  border: 2px solid #ead8ee;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600; font-size: 1.05rem;
+  padding: 14px 18px; border-radius: 16px;
+  transition: transform .12s var(--ease), background .2s, border-color .2s;
+}
+.quiz-opt:hover { border-color: var(--pink); transform: translateY(-2px); }
+.quiz-opt.correct { background: #d6f5e2; border-color: #4cc77c; }
+.quiz-opt.wrong { background: #ffd9e4; border-color: var(--pink); animation: shake .4s; }
+.quiz-opt:disabled { cursor: default; opacity: .9; }
+
+/* ---------------------- ZONA 3 · MEMORIA ------------------------- */
+.cave-panel { background: linear-gradient(180deg, rgba(40,30,70,.96), rgba(20,12,40,.96)); color: #f0e9ff; box-shadow: var(--shadow), inset 0 0 0 3px rgba(255,255,255,.12); }
+.cave-panel h2 { color: var(--gold); }
+.cave-panel .lead { color: #c7bce0; }
+.memory-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  width: min(360px, 80vw); margin: 16px auto;
+}
+.memory-cell {
+  aspect-ratio: 1;
+  border-radius: 18px;
+  border: none;
+  font-size: 2rem;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,.08);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.12);
+  transition: transform .1s var(--ease), filter .15s, box-shadow .15s;
+  filter: brightness(.7) saturate(.8);
+}
+.memory-cell.lit { filter: brightness(1.6) saturate(1.4); transform: scale(1.06); box-shadow: 0 0 28px var(--cell-glow, #fff), inset 0 0 0 2px #fff; }
+.memory-cell:active { transform: scale(.94); }
+.lantern-meter { font-size: .9rem; color: #c7bce0; margin-top: 8px; }
+
+/* Effetto buio con lanterna */
+
+/* ---------------------- ZONA 4 · CASTELLO ------------------------ */
+.gate-scene { position: relative; width: min(520px, 90vw); }
+.lock-big { font-size: 3rem; animation: floaty 3s ease-in-out infinite; }
+
+/* ---------------------- ZONA 5 · CASSAFORTE ---------------------- */
+.safe-display {
+  font-family: "Baloo 2"; letter-spacing: .35em;
+  font-size: 2.2rem; color: #2cff9a;
+  background: #0b1418; border-radius: 12px;
+  padding: 14px 10px; margin: 6px auto 16px; width: min(320px, 80%);
+  box-shadow: inset 0 0 18px rgba(44,255,154,.3), inset 0 0 0 3px #1c2a30;
+  text-shadow: 0 0 12px rgba(44,255,154,.8);
+  min-height: 1.4em;
+}
+.safe-display.error { color: #ff5b6e; text-shadow: 0 0 12px rgba(255,91,110,.8); animation: shake .4s; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: min(300px, 80%); margin: 0 auto; }
+.key {
+  aspect-ratio: 1.4;
+  border: none; border-radius: 14px;
+  font-family: "Baloo 2"; font-size: 1.6rem; font-weight: 700;
+  background: linear-gradient(180deg, #fff, #ece2f0);
+  color: var(--ink);
+  box-shadow: 0 5px 0 #c9b8d4, var(--shadow);
+  transition: transform .1s var(--ease), box-shadow .1s var(--ease);
+}
+.key:active { transform: translateY(4px); box-shadow: 0 1px 0 #c9b8d4; }
+.key-ok { background: linear-gradient(180deg, #8affc0, #2fd587); box-shadow: 0 5px 0 #1c9a60, var(--shadow); }
+.key-del { background: linear-gradient(180deg, #ffd0d0, #ff9a9a); box-shadow: 0 5px 0 #c95b5b, var(--shadow); }
+.safe-hint { margin-top: 14px; color: #6a5a76; font-size: .95rem; }
+
+/* Torta finale */
+.finale-wrap { text-align: center; }
+.finale-title {
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  background: linear-gradient(90deg, var(--pink), #ff8a5c, var(--gold-deep));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin: 10px 0;
+}
+.finale-msg { color: #4a3a55; line-height: 1.6; font-size: 1.1rem; max-width: 44ch; margin: 0 auto 18px; }
+.gift-clue {
+  background: linear-gradient(180deg, #fff6da, #ffe7a8);
+  border: 2px dashed var(--gold-deep);
+  border-radius: 18px; padding: 18px;
+  font-family: "Baloo 2"; font-size: 1.3rem; color: #6a4a00;
+  margin: 8px auto; max-width: 38ch;
+  animation: pulseGlow 2.2s ease-in-out infinite;
+}
+
+/* --------------------------- MINI-MAPPA -------------------------- */
+#minimap {
+  position: absolute; top: 70px; right: 14px;
+  width: 190px;
+  background: rgba(255,255,255,.92);
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+  z-index: 18;
+  animation: pop .4s var(--ease);
+}
+
+/* --------------------------- INVENTARIO -------------------------- */
+#inventory {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(0deg, rgba(20,12,40,.6), transparent);
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 20;
+}
+.inv-label { color: #fff; font-family: "Baloo 2"; font-size: .85rem; opacity: .85; text-shadow: 0 2px 6px rgba(0,0,0,.5); }
+#inv-slots { display: flex; gap: 10px; }
+.inv-slot {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.18);
+  border: 2px solid rgba(255,255,255,.35);
+  display: grid; place-items: center;
+  font-size: 1.6rem;
+  position: relative;
+}
+.inv-slot.filled { background: rgba(255,255,255,.92); border-color: var(--gold); animation: pop .4s var(--ease); }
+.inv-slot .inv-name {
+  position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+  white-space: nowrap; font-size: .62rem; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.7);
+}
+
+/* ----------------------------- TOAST ----------------------------- */
+#toast {
+  position: fixed; left: 50%; top: 18%;
+  transform: translateX(-50%) translateY(-10px);
+  background: rgba(42, 33, 64, .94);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-family: "Baloo 2"; font-weight: 600;
+  box-shadow: var(--shadow);
+  z-index: 70;
+  opacity: 0;
+  transition: opacity .3s, transform .3s var(--ease);
+  pointer-events: none;
+  max-width: 86vw; text-align: center;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* --------------------------- ANIMAZIONI -------------------------- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { 0% { transform: scale(.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes spinPop { 0% { transform: rotate(-30deg) scale(0); } 70% { transform: rotate(8deg) scale(1.1); } 100% { transform: rotate(0) scale(1); } }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
+@keyframes pulseGlow { 0%,100% { box-shadow: 0 0 0 rgba(224,69,123,.4); } 50% { box-shadow: 0 0 18px rgba(224,69,123,.7); } }
+
+/* ====================== MONDO ESPLORABILE ======================= */
+/* Quando #scene è in modalità mondo: niente centratura, è la telecamera */
+#scene.world-mode { padding: 0; display: block; overflow: hidden; }
+
+/* Strati con parallasse (sfondo lento, primo piano veloce) */
+.layer {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: var(--worldW, 1800px);
+  will-change: transform;
+}
+.layer-scenery { z-index: 2; }
+.layer-main { z-index: 3; }
+
+/* Terreno su cui cammina l'eroina */
+.ground {
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: var(--groundH, 120px);
+  background: var(--ground-color, #6db96a);
+  box-shadow: inset 0 6px 0 rgba(255, 255, 255, .18), inset 0 14px 24px rgba(0, 0, 0, .12);
+}
+.ground::before { /* erba/bordo superiore */
+  content: ""; position: absolute; top: -8px; left: 0; right: 0; height: 14px;
+  background: var(--ground-edge, #8fd07f);
+  border-radius: 50% 50% 0 0 / 14px;
+}
+
+/* Decori sparsi (alberi, fiori, stelle…) */
+.deco-item {
+  position: absolute; bottom: var(--groundH, 120px);
+  transform: translateX(-50%);
+  filter: drop-shadow(0 8px 6px rgba(0, 0, 0, .18));
+  user-select: none; pointer-events: none;
+  line-height: 1;
+}
+
+/* Eroina nel mondo (dimensionata in altezza, ancorata ai piedi) */
+.hero-world {
+  position: absolute;
+  height: clamp(140px, 30vh, 260px); width: auto;
+  bottom: var(--groundH, 120px);
+  transform-origin: center bottom;
+  z-index: 5;
+}
+.hero-inner { height: 100%; filter: drop-shadow(0 10px 8px rgba(0, 0, 0, .35)); }
+.hero-inner svg,
+.hero-inner .sprite-img,
+.hero-sprite-img { height: 100%; width: auto; display: block; }
+.hero-world.walking .hero-inner { animation: walk .42s ease-in-out infinite; }
+.hero-world.idle .hero-inner { animation: bob 2.4s ease-in-out infinite; }
+/* In modalità sprite (PNG) le pose cambiano da sole: niente animazione CSS */
+.hero-world.sprite-mode .hero-inner { animation: none !important; }
+
+/* Oggetti interattivi del mondo */
+.world-object {
+  position: absolute; bottom: var(--groundH, 120px);
+  transform: translateX(-50%);
+  text-align: center; z-index: 4;
+  display: flex; flex-direction: column; align-items: center;
+}
+.world-object .obj-art {
+  font-size: var(--art-size, 4.2rem); line-height: 1;
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, .28));
+  animation: floaty 3.4s ease-in-out infinite;
+  transition: transform .2s var(--ease), filter .3s;
+}
+.world-object.near .obj-art { transform: scale(1.12); filter: drop-shadow(0 0 18px var(--gold)) drop-shadow(0 10px 8px rgba(0,0,0,.3)); }
+.world-object.done .obj-art { animation: none; opacity: .85; }
+.world-object .obj-base { /* basamento/ombra a terra */
+  width: 60px; height: 12px; margin-top: 2px;
+  background: rgba(0, 0, 0, .22); border-radius: 50%;
+  filter: blur(2px);
+}
+
+/* Fumetto "Interagisci [E]" sopra l'oggetto attivo */
+.obj-prompt {
+  position: absolute; bottom: calc(var(--groundH, 120px) + var(--art-size, 4.2rem) + 28px);
+  left: 0; transform: translateX(-50%);
+  background: rgba(42, 33, 64, .95); color: #fff;
+  font-family: "Baloo 2"; font-weight: 700; font-size: .95rem;
+  padding: 8px 14px; border-radius: 999px; white-space: nowrap;
+  box-shadow: var(--shadow); z-index: 6;
+  animation: floaty 1.6s ease-in-out infinite;
+}
+.obj-prompt::after { display: none; }
+
+/* Passaggio / portale verso la zona successiva */
+.portal {
+  position: absolute; bottom: var(--groundH, 120px);
+  transform: translateX(-50%);
+  width: 90px; height: 150px; z-index: 4;
+  display: grid; place-items: center;
+  border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 50% 45%, #fff6, #b06bff88 45%, #6a3fb066 70%, transparent 72%);
+  opacity: 0; pointer-events: none;
+  transition: opacity .6s var(--ease);
+}
+
+/* Controlli a schermo: D-pad a 4 frecce (immagini) */
+#touch-controls {
+  position: absolute; left: 14px; bottom: 88px;
+  z-index: 22; pointer-events: none;
+}
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 58px);
+  grid-template-rows: repeat(2, 58px);
+  gap: 3px;
+}
+.tc-up { grid-column: 2; grid-row: 1; }
+.tc-left { grid-column: 1; grid-row: 2; }
+.tc-right { grid-column: 3; grid-row: 2; }
+.tc-btn {
+  width: 58px; height: 58px; padding: 0;
+  border: none; background: none; box-shadow: none;
+  display: grid; place-items: center;
+  pointer-events: auto; user-select: none; touch-action: none;
+  transition: transform .08s ease;
+}
+.tc-btn img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 3px 3px rgba(0,0,0,.45)); }
+.tc-btn:active, .tc-btn.held { transform: scale(.85); }
+
+/* Buio della grotta con alone della lanterna */
+#cave-dark {
+  position: absolute; inset: 0; z-index: 7; pointer-events: none;
+  background: radial-gradient(circle var(--lr, 200px) at var(--lx, 50%) var(--ly, 60%),
+              rgba(0,0,0,0) 0%, rgba(0,0,0,0) 42%, rgba(2,1,8,.96) 78%);
+}
+
+/* Finestra modale che ospita i mini-giochi */
+.overlay-modal {
+  position: fixed; inset: 0; z-index: 50;
+  display: grid; place-items: center; padding: 16px;
+  background: rgba(20, 12, 40, .55);
+  backdrop-filter: blur(3px);
+  animation: fadeIn .3s var(--ease);
+}
+
+@keyframes walk {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-7px) rotate(3deg); }
+}
+
+/* ===================== GRAFICA PERSONALIZZATA =================== */
+/* Sprite PNG dell'avatar (dimensionamento eroina gestito sopra in MONDO) */
+.sprite-img { display: block; }
+.hud-avatar .sprite-img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+/* Pixel-art: mantiene i pixel netti quando ingrandito */
+body.pixel-art .sprite-img,
+body.pixel-art .layer-bg,
+body.pixel-art #scene img { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+/* Strato dello sfondo-immagine di una zona */
+.layer-bg {
+  position: absolute; inset: 0;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Segnalino di interazione sopra un soggetto già dipinto nello sfondo */
+.world-object.marker .obj-base { display: none; }
+.world-object.marker .obj-art {
+  filter: drop-shadow(0 0 12px var(--gold)) drop-shadow(0 0 22px #fff8);
+  animation: floaty 1.8s ease-in-out infinite;
+}
+.world-object.marker.near .obj-art { transform: scale(1.35); }
+
+/* Schermata titolo a tutto schermo (immagine) */
+#start-screen.image-start {
+  background: #11102a center / contain no-repeat;
+  padding: 0; cursor: pointer;
+}
+.start-tap {
+  position: absolute; left: 50%; bottom: 5%; transform: translateX(-50%);
+  background: rgba(42, 33, 64, .82); color: #fff;
+  font-family: "Baloo 2"; font-weight: 700; font-size: 1rem;
+  padding: 10px 22px; border-radius: 999px;
+  box-shadow: var(--shadow); animation: pulseGlow 1.6s infinite;
+}
+
+/* Finale a tutto schermo (immagine auguri) */
+.overlay-modal.finale-screen {
+  background: #15111f center / contain no-repeat;
+  backdrop-filter: none;
+}
+.finale-screen .finale-wrap { background: rgba(255, 248, 240, .94); }
+
+/* ====================== MAPPA DEL PERCORSO ====================== */
+#minimap { cursor: pointer; transition: transform .15s var(--ease); }
+#minimap:hover { transform: scale(1.03); }
+
+.map-panel { max-width: min(560px, 94vw); }
+.map-panel h2 { color: var(--pink); margin-bottom: 14px; }
+
+/* Immagine della mappa del percorso */
+.map-image {
+  width: 100%; max-height: 64vh; object-fit: contain;
+  border-radius: 16px; display: block; margin: 0 auto;
+  box-shadow: var(--shadow); background: #efe6d6;
+}
+body.pixel-art .map-image { image-rendering: pixelated; image-rendering: crisp-edges; }
+.map-here { margin: 12px 0 2px; font-size: 1.05rem; color: var(--ink); }
+.map-path { display: flex; flex-direction: column; align-items: stretch; gap: 0; margin: 0 0 18px; }
+.map-node {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px; border-radius: 18px;
+  background: #faf2ff; border: 2px solid #ead8ee;
+  text-align: left;
+}
+.map-node .map-icon {
+  width: 48px; height: 48px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 50%; font-size: 1.5rem;
+  background: #e3d6e6; color: #fff;
+}
+.map-node .map-name { font-family: "Baloo 2"; font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+.map-node .map-status { font-size: .85rem; color: #8a7a96; }
+.map-node .map-reward { font-size: .8rem; color: var(--gold-deep); font-weight: 700; margin-top: 2px; }
+
+.map-node.done { background: #e9f9ef; border-color: #b6ebcb; }
+.map-node.done .map-icon { background: #4cc77c; }
+.map-node.current { background: #fff0f6; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(224,69,123,.18); }
+.map-node.current .map-icon { background: var(--pink); animation: pulseGlow 1.6s infinite; }
+.map-node.locked { opacity: .7; }
+.map-node.locked .map-icon { background: #c9bcd2; }
+.map-node.locked .map-name { color: #9385a3; }
+
+.map-link {
+  width: 4px; height: 22px; margin: 0 0 0 35px;
+  background: repeating-linear-gradient(180deg, #d9c7df 0 6px, transparent 6px 12px);
+}
+.map-link.done { background: repeating-linear-gradient(180deg, #4cc77c 0 6px, transparent 6px 12px); }
+
+/* --------------------------- RESPONSIVE -------------------------- */
+@media (max-width: 560px) {
+  #minimap { width: 150px; top: 64px; right: 8px; padding: 10px; }
+  .panel { padding: 18px 14px 20px; }
+  .panel h2 { font-size: 1.35rem; }
+  .hud-avatar { width: 46px; height: 46px; }
+  .inv-slot { width: 46px; height: 46px; font-size: 1.4rem; }
+  .start-card { padding: 34px 22px 28px; }
+}
+
+@media (max-height: 560px) {
+  #scene { padding-top: 64px; }
+}
+
+/* Accessibilità: rispetta chi preferisce meno movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .15s !important; }
+}
+
+/* =====================================================================
+   PIXEL SKIN — ridisegna tutta l'interfaccia in stile pixel-art
+   (blocco finale: ha la precedenza sugli stili sopra)
+   ===================================================================== */
+:root { --radius: 0px; }
+
+body, button, input,
+h1, h2, h3, .display,
+.start-title, .start-sub, .start-text, .start-tip,
+.hud-hero-text strong, .hud-hero-text span,
+.panel h2, .panel .lead, .quiz-q, .quiz-opt, .lead,
+.finale-title, .finale-msg,
+.map-node .map-name, .map-node .map-status, .map-here, .gift-clue,
+.inv-name, .start-tap, .obj-prompt,
+.key, .safe-display, .lantern-meter, #toast, .map-reward {
+  font-family: "Pixelify Sans", "Quicksand", system-ui, sans-serif;
+  letter-spacing: .3px;
+}
+.finale-title { font-family: "Pixelify Sans", sans-serif; font-weight: 700; line-height: 1.3; }
+.start-badge { font-family: "Press Start 2P", sans-serif; }
+
+img, .layer-bg, .sprite-img, .hero-sprite-img, .memory-cell.tile {
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+
+/* Cornice pixel riutilizzata (pergamena con bordo scuro e ombra netta) */
+.panel, .start-card, .map-image {
+  border-radius: 0;
+  background: #f3e4c2;
+  color: #3a2a18;
+  border: 4px solid #4a3422;
+  box-shadow: inset 0 0 0 4px #c9a978, 0 8px 0 rgba(20, 10, 30, .4);
+}
+.panel h2, .start-title { color: #8a2f5a; }
+.panel .lead, .lead { color: #5a4630; }
+
+/* Pannello grotta (memory): pergamena chiara coerente */
+.cave-panel { background: #f3e4c2; color: #3a2a18; }
+.cave-panel h2 { color: #8a2f5a; }
+.cave-panel .lead, .lantern-meter { color: #5a4630; }
+
+/* Bottoni pixel dorati con smusso netto */
+.btn {
+  border-radius: 0; color: #4a2c00;
+  background: #f5c542;
+  border: 4px solid #4a3422;
+  box-shadow: inset -4px -4px 0 #c9971a, inset 4px 4px 0 #ffe79a, 0 6px 0 #2a1c10;
+  text-shadow: none; font-weight: 700;
+}
+.btn:hover { filter: brightness(1.04); }
+.btn:active { transform: translateY(5px); box-shadow: inset -4px -4px 0 #c9971a, inset 4px 4px 0 #ffe79a, 0 1px 0 #2a1c10; }
+
+.icon-btn {
+  border-radius: 0; background: #f3e4c2;
+  border: 3px solid #4a3422; box-shadow: 0 4px 0 #2a1c10;
+}
+.icon-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #2a1c10; }
+
+/* HUD */
+.hud-avatar { border-radius: 0; background: #241b38; border: 3px solid #4a3422; box-shadow: 0 4px 0 #2a1c10; }
+.hud-hero-text strong, .hud-hero-text span { text-shadow: 2px 2px 0 #000; }
+
+/* Inventario */
+.inv-label { text-shadow: 2px 2px 0 #000; }
+.inv-slot { border-radius: 0; background: rgba(36, 27, 56, .8); border: 3px solid #0e0a1a; box-shadow: inset 0 0 0 2px #4a3a6a; }
+.inv-slot.filled { background: #f3e4c2; border-color: #4a3422; box-shadow: inset 0 0 0 2px #c9a978; }
+.inv-slot.filled span { color: #3a2a18; }
+.inv-img { width: 88%; height: 88%; object-fit: contain; object-position: center; }
+
+/* Mini-mappa (pulsante-icona) */
+#minimap { border-radius: 0; background: #f3e4c2; border: 4px solid #4a3422; box-shadow: inset 0 0 0 4px #c9a978, 0 6px 0 rgba(20,10,30,.4); }
+
+/* Fumetto di interazione */
+.obj-prompt { border-radius: 0; background: #241b38; color: #fff; border: 3px solid #0e0a1a; box-shadow: inset 0 0 0 2px #4a3a6a; }
+.obj-prompt::after { border-top-color: #0e0a1a; }
+
+/* Segnalino: pacco regalo che indica dove entrare nel gioco */
+.world-object.marker .obj-gift {
+  height: clamp(56px, 12vh, 110px); width: auto; display: block;
+  filter: drop-shadow(0 0 8px rgba(255,220,120,.5)) drop-shadow(0 4px 4px rgba(0,0,0,.4));
+  animation: floaty 2s ease-in-out infinite;
+  cursor: pointer;
+}
+.world-object.marker.near .obj-gift { transform: scale(1.12); }
+.world-object.marker .obj-prompt { bottom: calc(100% + 6px); }
+
+/* Portale del Reame: immagine statica (niente rotazione), sempre visibile */
+.portal.has-img {
+  background: none; width: auto; height: auto; border-radius: 0;
+  opacity: 1; pointer-events: auto; cursor: pointer;
+}
+.portal-img { width: auto; height: clamp(120px, 26vh, 230px); display: block; transition: filter .5s; }
+/* dormiente = blu ma più scuro/spento finché non risolvi la sfida */
+.portal.has-img.dormant .portal-img { filter: brightness(.6) saturate(.95); opacity: .9; }
+.portal.has-img.dormant { animation: none; }
+/* attivo = acceso, con bagliore pulsante */
+.portal.has-img.open .portal-img { filter: drop-shadow(0 0 16px #5cc8ff) drop-shadow(0 0 30px #6a3fb0) brightness(1.05); }
+.portal.has-img.open { animation: portalGlow 1.8s ease-in-out infinite; }
+.portal.has-img .obj-prompt { bottom: calc(100% + 6px); }
+@keyframes portalGlow { 0%,100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.03); } }
+
+/* Quiz */
+.quiz-opt { border-radius: 0; background: #fff7e8; color: #3a2a18; border: 3px solid #4a3422; box-shadow: 0 5px 0 #c9a978; }
+.quiz-opt:hover { border-color: #8a2f5a; transform: translateY(-2px); }
+.quiz-opt.correct { background: #cdeccf; border-color: #3a8a4a; }
+.quiz-opt.wrong { background: #f3c9d2; border-color: #b0306a; }
+.quiz-dot { border-radius: 0; }
+
+/* Memory: tessere immagine */
+.memory-grid.mem4 { grid-template-columns: repeat(2, 1fr); width: min(300px, 74vw); }
+.memory-cell.tile {
+  background-size: contain; background-repeat: no-repeat; background-position: center;
+  background-color: #1a1330;
+  border-radius: 18px; box-shadow: none;
+  filter: brightness(.72) saturate(.95); transition: transform .1s, filter .12s;
+}
+.memory-cell.tile.lit { filter: brightness(1.5) saturate(1.2) drop-shadow(0 0 16px #fff); transform: scale(1.08); }
+
+/* Cassaforte */
+.key { border-radius: 0; background: #e9dcc0; color: #3a2a18; border: 3px solid #4a3422; box-shadow: 0 6px 0 #2a1c10; }
+.key:active { transform: translateY(5px); box-shadow: 0 1px 0 #2a1c10; }
+.key-ok { background: #8de28a; } .key-del { background: #f0a0a0; }
+.safe-display { border-radius: 0; }
+.safe-dial { width: 86px; height: auto; display: block; margin: 8px auto 2px; }
+
+/* Finale */
+.finale-scroll { width: min(300px, 84%); height: auto; display: block; margin: 0 auto 12px; }
+.gift-clue { border-radius: 0; background: #fff3cf; border: 4px dashed #b07d10; color: #6a4a00; }
+
+/* Mappa, toast, start-tap */
+.map-node { border-radius: 0; border: 3px solid #4a3422; background: #fff7e8; }
+.map-node.done { background: #d8f0d8; }
+.map-node.current { background: #ffe6c0; box-shadow: inset 0 0 0 3px #f5c542; }
+.map-node .map-icon { border-radius: 0; }
+#toast { border-radius: 0; background: #241b38; border: 3px solid #0e0a1a; box-shadow: inset 0 0 0 2px #4a3a6a; }
+.start-tap { border-radius: 0; background: #241b38; border: 3px solid #0e0a1a; box-shadow: inset 0 0 0 2px #4a3a6a; }
+
+/* ---- Sacca inventario (al posto della scritta "Zaino") ---- */
+.inv-bag { height: 52px; width: auto; image-rendering: pixelated; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); flex: none; }
+
+/* ---- Segnalino cliccabile ---- */
+.world-object.marker { cursor: pointer; padding: 12px; pointer-events: auto; }
+.world-object.marker .obj-prompt { pointer-events: none; }
+
+/* ---- Finale: chiudi/riapri la pergamena ---- */
+.finale-wrap { position: relative; }
+.finale-close {
+  position: absolute; top: 8px; right: 8px;
+  width: 34px; height: 34px; padding: 0;
+  border: 3px solid #4a3422; background: #f0a0a0; color: #3a1a1a;
+  font-family: "Pixelify Sans"; font-weight: 700; font-size: 1.1rem;
+  box-shadow: 0 3px 0 #7a2c2c; cursor: pointer;
+}
+.finale-close:active { transform: translateY(2px); box-shadow: 0 1px 0 #7a2c2c; }
+.finale-reopen { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); }
+.finale-reopen:active { transform: translateX(-50%) translateY(4px); }
+.finale-hint { font-size: .82rem; color: #8a6a44; margin-top: 6px; }
+
+/* ---- Tieni l'UI DENTRO l'immagine (banda laterale = --frameX) ---- */
+#hud-top { left: var(--frameX, 0px); right: var(--frameX, 0px); }
+#inventory { left: var(--frameX, 0px); right: var(--frameX, 0px); }
+#minimap { right: calc(14px + var(--frameX, 0px)); }
+#touch-controls { left: calc(14px + var(--frameX, 0px)); }
+
+/* Avatar nelle finestre (lettura mappa / festa finale) */
+.map-hero { width: 96px; height: auto; display: block; margin: 0 auto 8px; image-rendering: pixelated; }
+.finale-hero { width: 120px; height: auto; display: block; margin: 4px auto 8px; image-rendering: pixelated; }
+
+/* ============ RIFINITURE: mini-mappa, contrasto, mobile ============ */
+
+/* Mini-mappa compatta: piccolo pulsante-icona (non copre la scena) */
+#minimap {
+  width: 62px; height: 62px; padding: 6px;
+  display: grid; place-items: center; overflow: visible;
+  cursor: pointer;
+}
+.minimap-icon { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
+
+/* Contrasto testo: scurisco i grigi poco leggibili */
+.map-node .map-status { color: #5a4a66; }
+.finale-hint { color: #6a5030; }
+.safe-hint { color: #5a4630; }
+.start-tip { color: #cdbff0; }
+.hud-hero-text span { opacity: 1; }
+.map-here { color: #3a2a18; }
+
+/* Avviso: gira il telefono in orizzontale */
+#rotate-hint { display: none; }
+@media (orientation: portrait) and (max-width: 920px) {
+  #rotate-hint {
+    display: grid; place-items: center; gap: 14px;
+    position: fixed; inset: 0; z-index: 200;
+    background: #241b38; color: #fff; text-align: center; padding: 30px;
+    font-family: "Pixelify Sans", sans-serif; font-size: 1.4rem; line-height: 1.5;
+  }
+  #rotate-hint .rot-ico {
+    width: 64px; height: 64px; border: 5px solid var(--gold); border-radius: 10px;
+    animation: rotate90 2s ease-in-out infinite;
+  }
+}
+@keyframes rotate90 { 0%,40% { transform: rotate(0); } 60%,100% { transform: rotate(90deg); } }
+
+/* ============ CONTRASTO: correzioni testo poco leggibile ============ */
+/* Titolo finale: da sfumatura chiara (poco leggibile su pergamena) a colore pieno */
+.finale-title {
+  background: none;
+  -webkit-text-fill-color: #7a3fb0;
+  color: #7a3fb0;
+}
+/* Premio nella mappa: oro chiaro -> marrone scuro leggibile */
+.map-node .map-reward { color: #7a5210; }
+/* Testo HUD sempre ben staccato dallo sfondo luminoso della scena */
+#hud-top { background: linear-gradient(180deg, rgba(18,10,34,.72), rgba(18,10,34,.15) 70%, transparent); }
+.hud-hero-text strong, .hud-hero-text span { text-shadow: 2px 2px 0 #000, 0 0 6px rgba(0,0,0,.6); }
+/* Suggerimento cassaforte e indizi: ben scuri su pergamena */
+.safe-hint, .lantern-meter, .cave-panel .lead { color: #4a3620; }
+.map-here { color: #3a2a18; font-weight: 700; }
